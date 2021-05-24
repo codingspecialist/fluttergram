@@ -9,7 +9,7 @@ class Post extends StatelessWidget {
 
   const Post(
     this.index, {
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -28,7 +28,8 @@ class Post extends StatelessWidget {
 
   Widget _postCaption() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: common_gap, vertical: common_xxs_gap),
+      padding: const EdgeInsets.symmetric(
+          horizontal: common_gap, vertical: common_xxs_gap),
       child: Comment(
         showImage: true,
         username: "ssarmango",

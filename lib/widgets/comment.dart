@@ -6,13 +6,13 @@ class Comment extends StatelessWidget {
   final bool showImage;
   final String username;
   final String text;
-  final DateTime dateTime;
+  final DateTime? dateTime;
 
   const Comment({
-    Key key,
+    Key? key,
     this.showImage = true,
-    @required this.username,
-    @required this.text,
+    required this.username,
+    required this.text,
     this.dateTime,
   }) : super(key: key);
 
@@ -50,7 +50,7 @@ class Comment extends StatelessWidget {
             ])),
             if (dateTime != null)
               Text(
-                dateTime.toIso8601String(),
+                dateTime!.toIso8601String(),
                 style: TextStyle(
                   fontSize: 10,
                   color: Colors.grey[400],

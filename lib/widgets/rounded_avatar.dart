@@ -6,7 +6,7 @@ class RoundedAvatar extends StatelessWidget {
   final size;
 
   const RoundedAvatar({
-    Key key,
+    Key? key,
     this.size = avatar_size,
   }) : super(key: key);
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_instagram/constants/common_size.dart';
+import 'package:flutter_instagram/widgets/rounded_avatar.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -8,7 +9,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
-  TabController _tabController;
+  TabController? _tabController;
 
   @override
   void initState() {
@@ -26,6 +27,40 @@ class _ProfileScreenState extends State<ProfileScreen>
           return [
             SliverList(
               delegate: SliverChildListDelegate([
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(common_gap),
+                      child: SizedBox(
+                        width: 80,
+                        height: 80,
+                        child: CircleAvatar(
+                          backgroundImage:
+                              AssetImage("assets/images/background.jpeg"),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: common_gap),
+                        child: Table(
+                          children: [
+                            TableRow(children: [
+                              _valueText("123123"),
+                              _valueText("123123"),
+                              _valueText("123123"),
+                            ]),
+                            TableRow(children: [
+                              _labelText("Post"),
+                              _labelText("Followers"),
+                              _labelText("Following"),
+                            ]),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
                 _username(),
                 _bio(),
                 _editProfileButton(),
@@ -54,16 +89,32 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 
+  Text _valueText(String value) {
+    return Text(
+      value,
+      style: TextStyle(fontWeight: FontWeight.bold),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  Text _labelText(String label) {
+    return Text(
+      label,
+      style: TextStyle(fontWeight: FontWeight.w300, fontSize: 11.0),
+      textAlign: TextAlign.center,
+    );
+  }
+
   TabBar _tabButtons() {
     return TabBar(
       controller: _tabController,
       indicatorColor: Colors.black,
       tabs: [
         Tab(
-          icon: Icon(Icons.directions_car),
+          icon: Icon(Icons.apps),
         ),
         Tab(
-          icon: Icon(Icons.directions_transit),
+          icon: Icon(Icons.account_box_outlined),
         ),
       ],
     );

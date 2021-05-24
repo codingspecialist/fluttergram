@@ -5,7 +5,7 @@ import 'package:flutter_instagram/screens/profile_screen.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
