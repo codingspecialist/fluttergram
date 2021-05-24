@@ -19,7 +19,9 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   @override
   Widget build(BuildContext context) {
+    final menuWidth = MediaQuery.of(context).size.width * 0.6;
     return Scaffold(
+      endDrawer: _sideMenu(menuWidth),
       backgroundColor: Colors.grey[100],
       appBar: _appbar(),
       body: NestedScrollView(
@@ -27,40 +29,7 @@ class _ProfileScreenState extends State<ProfileScreen>
           return [
             SliverList(
               delegate: SliverChildListDelegate([
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(common_gap),
-                      child: SizedBox(
-                        width: 80,
-                        height: 80,
-                        child: CircleAvatar(
-                          backgroundImage:
-                              AssetImage("assets/images/background.jpeg"),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: common_gap),
-                        child: Table(
-                          children: [
-                            TableRow(children: [
-                              _valueText("123123"),
-                              _valueText("123123"),
-                              _valueText("123123"),
-                            ]),
-                            TableRow(children: [
-                              _labelText("Post"),
-                              _labelText("Followers"),
-                              _labelText("Following"),
-                            ]),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+                _header(),
                 _username(),
                 _bio(),
                 _editProfileButton(),
@@ -86,6 +55,70 @@ class _ProfileScreenState extends State<ProfileScreen>
           )
         ]),
       ),
+    );
+  }
+
+  SafeArea _sideMenu(double menuWidth) {
+    return SafeArea(
+      child: SizedBox(
+        width: menuWidth,
+        child: Container(
+          color: Colors.grey[100],
+          child: Column(
+            children: [
+              ListTile(
+                title: Text(
+                  "Setting",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.exit_to_app,
+                  color: Colors.black87,
+                ),
+                title: Text("Sign out"),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _header() {
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(common_gap),
+          child: SizedBox(
+            width: 80,
+            height: 80,
+            child: CircleAvatar(
+              backgroundImage: AssetImage("assets/images/background.jpeg"),
+            ),
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(right: common_gap),
+            child: Table(
+              children: [
+                TableRow(children: [
+                  _valueText("10"),
+                  _valueText("200000"),
+                  _valueText("400"),
+                ]),
+                TableRow(children: [
+                  _labelText("Post"),
+                  _labelText("Followers"),
+                  _labelText("Following"),
+                ]),
+              ],
+            ),
+          ),
+        )
+      ],
     );
   }
 
@@ -159,14 +192,18 @@ class _ProfileScreenState extends State<ProfileScreen>
         ),
         onPressed: () {},
       ),
-      title: Text("cos"),
+      title: Text(
+        "cos",
+        style: TextStyle(color: Colors.black),
+      ),
       centerTitle: true,
       actions: [
-        IconButton(
-          icon: Icon(
-            Icons.more_horiz,
+        Builder(
+          builder: (context) => IconButton(
+            icon: Icon(Icons.more_horiz),
+            onPressed: () => Scaffold.of(context).openEndDrawer(),
+            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
           ),
-          onPressed: () {},
         ),
       ],
     );
