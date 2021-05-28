@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_instagram/constants/common_size.dart';
-import 'package:flutter_instagram/widgets/comment.dart';
-import 'package:flutter_instagram/widgets/rounded_avatar.dart';
+import 'file:///C:/src/flutterwork/flutter_instagram/lib/widgets/feed/comment.dart';
+import 'file:///C:/src/flutterwork/flutter_instagram/lib/widgets/common/rounded_avatar.dart';
 
 class Post extends StatelessWidget {
   final int index;

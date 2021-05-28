@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_instagram/constants/common_size.dart';
-import 'package:flutter_instagram/widgets/rounded_avatar.dart';
+import 'file:///C:/src/flutterwork/flutter_instagram/lib/widgets/common/rounded_avatar.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override

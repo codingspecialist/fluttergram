@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_instagram/widgets/post.dart';
+import 'file:///C:/src/flutterwork/flutter_instagram/lib/widgets/feed/post.dart';
 
 class FeedScreen extends StatelessWidget {
   @override

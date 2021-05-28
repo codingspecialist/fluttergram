@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomePage(),
+      home: SignInScreen(),
       theme: ThemeData(
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.white,
