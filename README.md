@@ -1,16 +1,23 @@
 # flutter_instagram
 
-A new Flutter application.
+## ButtonStyle
+- https://devmemory.tistory.com/53
 
-## Getting Started
+## null safety
+- https://www.grepiu.com/post/74
+- 조건 ? A : B; (삼항연산자)
+- a?.test(); (a가 null이 아니면 test를 실행한다)
+- a ??= b; (a가 null이면 b를 넣는다)
+- a = b ?? c; (b가 null이 아니면 a에 배정한다. 아니면 c를 배정한다)
+- 값! (값이 null 이 아니다고 확신하는 연산자)
 
-This project is a starting point for a Flutter application.
+## Transition 종류
+- FadeTransition
 
-A few resources to get you started if this is your first Flutter project:
+- SlideTransition
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+- ScaleTransition
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- RotationTransition
+
+- SizeTransition

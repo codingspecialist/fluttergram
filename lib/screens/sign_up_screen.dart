@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_instagram/screens/sign_in_screen.dart';
-import 'package:flutter_instagram/widgets/sign_up_form.dart';
+import 'file:///C:/src/flutterwork/flutter_instagram/lib/widgets/signup/sign_up_form.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -11,6 +11,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Stack(
           children: [
@@ -33,11 +34,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
           TextButton(
             onPressed: () {
               Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SignInScreen(),
-                  ),
-                  (route) => false);
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      SignInScreen(),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) =>
+                          FadeTransition(opacity: animation, child: child),
+                ),
+                (route) => false,
+              );
             },
             child: RichText(
               text: TextSpan(
