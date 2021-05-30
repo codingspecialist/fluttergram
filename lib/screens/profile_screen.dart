@@ -78,6 +78,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                   color: Colors.black87,
                 ),
                 title: Text("Sign out"),
+                onTap: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, "/login", (route) => false);
+                },
               )
             ],
           ),

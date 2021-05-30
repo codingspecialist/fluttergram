@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_instagram/constants/common_size.dart';
+import 'package:flutter_instagram/home_page.dart';
 
 class CustomBlueButton extends StatelessWidget {
   const CustomBlueButton({
@@ -27,7 +28,9 @@ class CustomBlueButton extends StatelessWidget {
         child: TextButton(
           onPressed: () {
             if (formKey != null) {
-              if (formKey!.currentState!.validate()) {}
+              if (formKey!.currentState!.validate()) {
+                Navigator.pushReplacementNamed(context, "/home");
+              }
             }
           },
           // 버튼 스타일 참고 : https://devmemory.tistory.com/53

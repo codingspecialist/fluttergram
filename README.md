@@ -13,11 +13,11 @@
 
 ## Transition 종류
 - FadeTransition
-
 - SlideTransition
-
 - ScaleTransition
-
 - RotationTransition
-
 - SizeTransition
+
+## Navigator push 종류
+- pushAndRemoveUntil (현재 화면 변경 - 모든 화면 스택에서 사라짐)
+- pushReplacement (현재 화면 변경 - 현재 화면 스택에서 사라짐)

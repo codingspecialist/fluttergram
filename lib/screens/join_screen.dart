@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_instagram/screens/sign_up_screen.dart';
-import 'package:flutter_instagram/widgets/signin/sign_in_form.dart';
+import 'package:flutter_instagram/screens/login_screen.dart';
+import 'file:///C:/src/flutterwork/flutter_instagram/lib/widgets/signup/join_form.dart';
 
-class SignInScreen extends StatefulWidget {
+class JoinScreen extends StatefulWidget {
   @override
-  _SignInScreenState createState() => _SignInScreenState();
+  _JoinScreenState createState() => _JoinScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _JoinScreenState extends State<JoinScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +15,7 @@ class _SignInScreenState extends State<SignInScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            SignInForm(),
+            SignUpForm(),
             _bottomNavigationButton(context),
           ],
         ),
@@ -33,15 +33,9 @@ class _SignInScreenState extends State<SignInScreen> {
           Divider(),
           TextButton(
             onPressed: () {
-              Navigator.pushAndRemoveUntil(
+              Navigator.pushNamedAndRemoveUntil(
                 context,
-                PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) =>
-                      SignUpScreen(),
-                  transitionsBuilder:
-                      (context, animation, secondaryAnimation, child) =>
-                          FadeTransition(opacity: animation, child: child),
-                ),
+                "/login",
                 (route) => false,
               );
             },
@@ -49,11 +43,11 @@ class _SignInScreenState extends State<SignInScreen> {
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: "Don't have an account? ",
+                    text: "Already have an account? ",
                     style: TextStyle(color: Colors.grey),
                   ),
                   TextSpan(
-                    text: "Sign Up",
+                    text: "Sign In",
                     style: TextStyle(color: Colors.blue),
                   ),
                 ],
