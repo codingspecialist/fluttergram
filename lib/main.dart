@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_instagram/home_page.dart';
+import 'package:flutter_instagram/screens/camera_screen.dart';
 import 'package:flutter_instagram/screens/login_screen.dart';
 import 'package:flutter_instagram/screens/join_screen.dart';
 
@@ -11,11 +12,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: "/login",
+      debugShowCheckedModeBanner: false,
+      initialRoute: "/home",
       routes: {
         "/login": (context) => LoginScreen(),
         "/join": (context) => JoinScreen(),
         "/home": (context) => HomePage(),
+        "/camera": (context) => CameraScreen(),
         "/logout": (context) => LoginScreen(),
       },
       theme: ThemeData(

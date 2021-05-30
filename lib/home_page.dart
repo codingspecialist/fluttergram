@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_instagram/constants/screen_num.dart';
 import 'package:flutter_instagram/constants/screen_size.dart';
 import 'package:flutter_instagram/screens/feed_screen.dart';
 import 'package:flutter_instagram/screens/profile_screen.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:app_settings/app_settings.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({
@@ -28,9 +31,7 @@ class _HomePageState extends State<HomePage> {
     Container(
       color: Colors.blueAccent,
     ),
-    Container(
-      color: Colors.greenAccent,
-    ),
+    SizedBox(),
     Container(
       color: Colors.deepPurpleAccent,
     ),
@@ -58,9 +59,41 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onBtmItemClick(int index) {
-    print(index);
-    setState(() {
-      _selectedIndex = index;
+    if (index == ScreenNum.camera.index) {
+      _startCamera();
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
+  }
+
+  void _startCamera() async {
+    if (await confirmPermissionGranted(context)) {
+      Navigator.of(context).pushNamed("/camera");
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("사진, 파일, 마이크 접근을 허용 해주셔야 카메라 사용이 가능합니다."),
+        action: SnackBarAction(
+          label: "OK",
+          onPressed: () {
+            AppSettings.openAppSettings();
+          },
+        ),
+      ));
+    }
+  }
+
+  Future<bool> confirmPermissionGranted(BuildContext context) async {
+    Map<Permission, PermissionStatus> statuses =
+        await [Permission.camera, Permission.microphone].request();
+    bool permitted = true;
+
+    statuses.forEach((key, value) {
+      if (!value.isGranted) {
+        permitted = false;
+      }
     });
+    return permitted;
   }
 }
