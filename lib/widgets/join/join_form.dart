@@ -2,23 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_instagram/constants/common_size.dart';
 import 'package:flutter_instagram/widgets/common/custom_blue_button.dart';
 import 'package:flutter_instagram/widgets/common/custom_text_form_field.dart';
+import 'package:flutter_instagram/widgets/common/facebook_login_button.dart';
 
-class SignInForm extends StatefulWidget {
+class SignUpForm extends StatefulWidget {
   @override
-  _SignInFormState createState() => _SignInFormState();
+  _SignUpFormState createState() => _SignUpFormState();
 }
 
-class _SignInFormState extends State<SignInForm> {
+class _SignUpFormState extends State<SignUpForm> {
   GlobalKey<FormState> _formKey = GlobalKey();
 
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  TextEditingController _cPasswordController = TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _cPasswordController.dispose();
   }
 
   @override
@@ -56,7 +59,21 @@ class _SignInFormState extends State<SignInForm> {
                 }
               },
             ),
-            CustomBlueButton(value: "Login", formKey: _formKey),
+            SizedBox(height: common_gap),
+            CustomTextFormField(
+              controller: _cPasswordController,
+              hintText: "Confirm Password",
+              isSecret: true,
+              validator: (value) {
+                if (value.isNotEmpty && _passwordController.text == value) {
+                  return null;
+                } else {
+                  return "패스워드가 동일하지 않습니다.";
+                }
+              },
+            ),
+            CustomBlueButton(value: "Join", formKey: _formKey),
+            FacebookLoginButton(),
           ],
         ),
       ),

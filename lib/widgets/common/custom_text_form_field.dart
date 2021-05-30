@@ -17,7 +17,6 @@ class CustomTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("isSecret : $isSecret");
     return TextFormField(
         controller: controller,
         obscureText: isSecret,

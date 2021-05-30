@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_instagram/constants/material_white.dart';
 import 'package:flutter_instagram/home_page.dart';
 import 'package:flutter_instagram/screens/login_screen.dart';
 import 'package:flutter_instagram/screens/join_screen.dart';

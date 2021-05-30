@@ -2,25 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_instagram/constants/common_size.dart';
 import 'package:flutter_instagram/widgets/common/custom_blue_button.dart';
 import 'package:flutter_instagram/widgets/common/custom_text_form_field.dart';
+import 'package:flutter_instagram/widgets/common/facebook_login_button.dart';
 
-class SignUpForm extends StatefulWidget {
+class SignInForm extends StatefulWidget {
   @override
-  _SignUpFormState createState() => _SignUpFormState();
+  _SignInFormState createState() => _SignInFormState();
 }
 
-class _SignUpFormState extends State<SignUpForm> {
+class _SignInFormState extends State<SignInForm> {
   GlobalKey<FormState> _formKey = GlobalKey();
 
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-  TextEditingController _cPasswordController = TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-    _cPasswordController.dispose();
   }
 
   @override
@@ -58,20 +57,15 @@ class _SignUpFormState extends State<SignUpForm> {
                 }
               },
             ),
-            SizedBox(height: common_gap),
-            CustomTextFormField(
-              controller: _cPasswordController,
-              hintText: "Confirm Password",
-              isSecret: true,
-              validator: (value) {
-                if (value.isNotEmpty && _passwordController.text == value) {
-                  return null;
-                } else {
-                  return "패스워드가 동일하지 않습니다.";
-                }
-              },
+            TextButton(
+              onPressed: () {},
+              child: Align(
+                child: Text("Forgotten Password?"),
+                alignment: Alignment.centerRight,
+              ),
             ),
-            CustomBlueButton(value: "Join", formKey: _formKey),
+            CustomBlueButton(value: "Login", formKey: _formKey),
+            FacebookLoginButton(),
           ],
         ),
       ),

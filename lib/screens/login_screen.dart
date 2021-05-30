@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_instagram/screens/join_screen.dart';
-import 'package:flutter_instagram/widgets/signin/login_form.dart';
+import 'package:flutter_instagram/widgets/login/login_form.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
