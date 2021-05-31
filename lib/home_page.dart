@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
 
   void _startCamera() async {
     if (await confirmPermissionGranted(context)) {
-      Navigator.of(context).pushNamed("/camera");
+      Navigator.of(context).pushNamed("/photo");
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("사진, 파일, 마이크 접근을 허용 해주셔야 카메라 사용이 가능합니다."),
