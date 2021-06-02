@@ -8,6 +8,11 @@ class PhotoScreen extends StatefulWidget {
 
 class _PhotoScreenState extends State<PhotoScreen> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

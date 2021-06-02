@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_instagram/constants/common_size.dart';
 import 'package:flutter_instagram/constants/screen_size.dart';
+import 'package:image_picker/image_picker.dart';
 
 class PhotoView extends StatefulWidget {
   @override
@@ -10,6 +11,8 @@ class PhotoView extends StatefulWidget {
 }
 
 class _PhotoViewState extends State<PhotoView> {
+  final ImagePicker _picker = ImagePicker();
+  PickedFile? _image;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<CameraDescription>>(
@@ -30,6 +33,14 @@ class _PhotoViewState extends State<PhotoView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    IconButton(
+                        icon: Icon(
+                          Icons.picture_in_picture,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          _getImage();
+                        }),
                     IconButton(
                         icon: Icon(
                           Icons.camera_alt_outlined,
@@ -55,5 +66,12 @@ class _PhotoViewState extends State<PhotoView> {
             ],
           );
         });
+  }
+
+  Future _getImage() async {
+    PickedFile? image = await _picker.getImage(source: ImageSource.gallery);
+    setState(() {
+      _image = image;
+    });
   }
 }
