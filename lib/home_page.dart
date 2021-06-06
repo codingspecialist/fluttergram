@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
 
   void _startCamera() async {
     if (await confirmPermissionGranted(context)) {
-      Navigator.of(context).pushNamed("/photo");
+      Navigator.of(context).pushNamed("/camera");
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("사진, 파일, 마이크 접근을 허용 해주셔야 카메라 사용이 가능합니다."),
@@ -85,12 +85,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<bool> confirmPermissionGranted(BuildContext context) async {
-    Map<Permission, PermissionStatus> statuses =
-        await [Permission.camera, Permission.microphone].request();
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.storage,
+      Permission.camera,
+    ].request();
     bool permitted = true;
 
     statuses.forEach((key, value) {
       if (!value.isGranted) {
+        print("권한 없는게 있어요!! $value");
         permitted = false;
       }
     });

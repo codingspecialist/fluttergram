@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_instagram/home_page.dart';
 import 'package:flutter_instagram/screens/camera_screen.dart';
-import 'package:flutter_instagram/screens/photo_screen.dart';
 import 'package:flutter_instagram/screens/login_screen.dart';
 import 'package:flutter_instagram/screens/join_screen.dart';
 
@@ -19,7 +18,6 @@ class MyApp extends StatelessWidget {
         "/login": (context) => LoginScreen(),
         "/join": (context) => JoinScreen(),
         "/home": (context) => HomePage(),
-        "/photo": (context) => PhotoScreen(),
         "/camera": (context) => CameraScreen(),
         "/logout": (context) => LoginScreen(),
       },
