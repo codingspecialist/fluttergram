@@ -1,10 +1,14 @@
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_instagram/constants/common_size.dart';
+import 'package:flutter_instagram/widgets/bug.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 class CameraScreen extends StatefulWidget {
   @override
@@ -12,14 +16,14 @@ class CameraScreen extends StatefulWidget {
 }
 
 class _CameraScreenState extends State<CameraScreen> {
-  File? _image;
-  final picker = ImagePicker();
   List<String> _picImageNames = [];
   String? mainImageFile;
+  bool isCameraState = false;
 
   @override
   void initState() {
     super.initState();
+    initTakePhoto();
   }
 
   @override
@@ -52,20 +56,23 @@ class _CameraScreenState extends State<CameraScreen> {
                   mainAxisSpacing: 1,
                   crossAxisSpacing: 1,
                 ),
-                children: List.generate(
-                  snapshot.data!.length,
-                  (index) => InkWell(
-                    onTap: () {
-                      setState(() {
-                        mainImageFile = snapshot.data!.elementAt(index).path;
-                      });
-                    },
-                    child: Image.file(
-                      snapshot.data!.elementAt(index),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
+                children: snapshot.data != null
+                    ? List.generate(
+                        snapshot.data!.length,
+                        (index) => InkWell(
+                          onTap: () {
+                            setState(() {
+                              mainImageFile =
+                                  snapshot.data!.elementAt(index).path;
+                            });
+                          },
+                          child: Image.file(
+                            snapshot.data!.elementAt(index),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      )
+                    : [],
               ),
             );
           }),
@@ -132,56 +139,59 @@ class _CameraScreenState extends State<CameraScreen> {
     );
   }
 
+  // GallerySaver.saveImage 함수를 한번 호출함으로써 버그를 잡는다. (최초 사진 저장안되는 버그)
+  void initTakePhoto() {
+    Uuid uuid = Uuid();
+    GallerySaver.saveImage(
+        "/data/user/0/com.cos.flutter_instagram/cache/$uuid.jpg");
+  }
+
   void _takePhoto() async {
     PickedFile? pickFile =
         await ImagePicker().getImage(source: ImageSource.camera);
 
-    // setState가 saveImage 함수 아래에 오면 기다리다가
-    // 사진 촬영 화면이 꺼져서 함수의 스택이 종료되버려서 반영이 안된다.
-    setState(() {
-      mainImageFile = pickFile!.path;
-    });
+    if (pickFile != null) {
+      setState(() {
+        mainImageFile = pickFile.path;
+      });
 
-    await GallerySaver.saveImage(pickFile!.path);
-    print("사진 촬영이 완료되었고 저장되었습니다.");
+      // 갤러리 세이버 최초 사진 저장안되는 버그 잡으려고
+      // 함수 스택 종료된 것 때문인가 해서 테스트 해봐도 안됨. 강제로 한번 실행시켜주는 방법밖에 없다. 5시간동안 고생함.
+      GallerySaver.saveImage(mainImageFile!, albumName: "Media");
+    }
   }
 
-  Future getPickImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-
-        print("선택된 이미지 경로 : ${_image!.path}");
-        _fileNameMemSave(_image!.path);
-      } else {
-        print('No image selected.');
-      }
-    });
+  void getPickImage() async {
+    PickedFile? pickedFile =
+        await ImagePicker().getImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      File? image = File(pickedFile.path);
+      _fileNameMemSave(image.path);
+    } else {
+      print('No image selected.');
+    }
   }
 
   _fileNameMemSave(String value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    print("이미지 경로 prefs에 저장 : ${value}");
     setState(() {
       _picImageNames = [..._picImageNames, "$value"];
       print(_picImageNames.toString());
     });
     // 이 부분은 실제로는 디비에 저장해야 한다.
-    await prefs.setStringList('picked', _picImageNames);
+    await prefs.setStringList('pick', _picImageNames);
   }
 
   Future<List<String>> _fileNameMemSelect() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // 이 부분은 실제로는 디비에서 가져와야 한다.
-    return prefs.getStringList("picked")!;
+    return prefs.getStringList("pick")!;
   }
 
   Future<List<File>> getFileImages() async {
     List<String> imageFileList = await _fileNameMemSelect();
     List<File> files = imageFileList.map((e) => File("$e")).toList();
-    print("가져올 이미지들 : ${files}");
+
     try {
       return files;
     } catch (e) {

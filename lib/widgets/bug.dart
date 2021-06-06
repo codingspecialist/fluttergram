@@ -1,0 +1,1 @@
+int gallerySaveImage = 1;

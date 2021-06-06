@@ -85,15 +85,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<bool> confirmPermissionGranted(BuildContext context) async {
-    Map<Permission, PermissionStatus> statuses = await [
-      Permission.storage,
-      Permission.camera,
-    ].request();
+    Map<Permission, PermissionStatus> statuses =
+        await [Permission.storage, Permission.camera].request();
     bool permitted = true;
 
     statuses.forEach((key, value) {
       if (!value.isGranted) {
-        print("권한 없는게 있어요!! $value");
         permitted = false;
       }
     });
