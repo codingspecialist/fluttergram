@@ -2,25 +2,25 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_instagram/constants/common_size.dart';
-import 'package:gallery_saver/gallery_saver.dart';
+import 'package:flutter_instagram/models/shard_images.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uuid/uuid.dart';
 
 class CameraScreen extends StatefulWidget {
   @override
-  _CameraScreenState createState() => _CameraScreenState();
+  _CameraScreenState createState() {
+    return _CameraScreenState();
+  }
 }
 
 class _CameraScreenState extends State<CameraScreen> {
   List<String> _picImageNames = [];
   String? mainImageFile;
-  bool isCameraState = false;
 
   @override
   void initState() {
     super.initState();
-    initTakePhoto();
   }
 
   @override
@@ -66,6 +66,7 @@ class _CameraScreenState extends State<CameraScreen> {
                           child: Image.file(
                             snapshot.data!.elementAt(index),
                             fit: BoxFit.cover,
+                            scale: 0.1, // 메모리 절약을 위해
                           ),
                         ),
                       )
@@ -136,13 +137,6 @@ class _CameraScreenState extends State<CameraScreen> {
     );
   }
 
-  // GallerySaver.saveImage 함수를 한번 호출함으로써 버그를 잡는다. (최초 사진 저장안되는 버그)
-  void initTakePhoto() {
-    Uuid uuid = Uuid();
-    GallerySaver.saveImage(
-        "/data/user/0/com.cos.flutter_instagram/cache/$uuid.jpg");
-  }
-
   void _takePhoto() async {
     PickedFile? pickFile =
         await ImagePicker().getImage(source: ImageSource.camera);
@@ -152,15 +146,15 @@ class _CameraScreenState extends State<CameraScreen> {
         mainImageFile = pickFile.path;
       });
 
-      // 갤러리 세이버 최초 사진 저장안되는 버그 잡으려고
-      // 함수 스택 종료된 것 때문인가 해서 테스트 해봐도 안됨. 강제로 한번 실행시켜주는 방법밖에 없다. 5시간동안 고생함.
-      GallerySaver.saveImage(mainImageFile!, albumName: "Media");
+      final result = await ImageGallerySaver.saveFile(mainImageFile!);
+      print("이미지 저장됨 $result");
     }
   }
 
   void getPickImage() async {
-    PickedFile? pickedFile =
-        await ImagePicker().getImage(source: ImageSource.gallery);
+    PickedFile? pickedFile = await ImagePicker()
+        .getImage(source: ImageSource.gallery, imageQuality: 1);
+
     if (pickedFile != null) {
       File? image = File(pickedFile.path);
       _fileNameMemSave(image.path);
@@ -173,16 +167,16 @@ class _CameraScreenState extends State<CameraScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _picImageNames = [..._picImageNames, "$value"];
-      print(_picImageNames.toString());
     });
     // 이 부분은 실제로는 디비에 저장해야 한다.
-    await prefs.setStringList('pick', _picImageNames);
+
+    await prefs.setStringList('picked', _picImageNames);
   }
 
   Future<List<String>> _fileNameMemSelect() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // 이 부분은 실제로는 디비에서 가져와야 한다.
-    return prefs.getStringList("pick")!;
+    return prefs.getStringList("picked")!;
   }
 
   Future<List<File>> getFileImages() async {
