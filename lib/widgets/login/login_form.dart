@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_instagram/constants/common_size.dart';
+import 'package:flutter_instagram/models/user_repository.dart';
 import 'package:flutter_instagram/widgets/common/custom_blue_button.dart';
 import 'package:flutter_instagram/widgets/common/custom_text_form_field.dart';
 import 'package:flutter_instagram/widgets/common/facebook_login_button.dart';
+import 'package:provider/provider.dart';
 
 class SignInForm extends StatefulWidget {
   @override
@@ -64,7 +66,15 @@ class _SignInFormState extends State<SignInForm> {
                 alignment: Alignment.centerRight,
               ),
             ),
-            CustomBlueButton(value: "Login", formKey: _formKey),
+            CustomBlueButton(
+              value: "Login",
+              formKey: _formKey,
+              authProgress: () {
+                Provider.of<UserRepository>(context, listen: false).signIn(
+                    _emailController.text.trim(),
+                    _passwordController.text.trim());
+              },
+            ),
             FacebookLoginButton(),
           ],
         ),

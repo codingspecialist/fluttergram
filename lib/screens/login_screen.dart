@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_instagram/models/user_repository.dart';
 import 'package:flutter_instagram/screens/join_screen.dart';
 import 'package:flutter_instagram/widgets/login/login_form.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -33,11 +35,8 @@ class _LoginScreenState extends State<LoginScreen> {
           Divider(),
           TextButton(
             onPressed: () {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                "/join",
-                (route) => false,
-              );
+              Provider.of<UserRepository>(context, listen: false)
+                  .route("/join");
             },
             child: RichText(
               text: TextSpan(

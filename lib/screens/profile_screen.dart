@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_instagram/constants/common_size.dart';
 import 'file:///C:/src/flutterwork/flutter_instagram/lib/widgets/common/rounded_avatar.dart';
+import 'package:flutter_instagram/models/user_repository.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -79,8 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                 ),
                 title: Text("Sign out"),
                 onTap: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, "/login", (route) => false);
+                  Provider.of<UserRepository>(context, listen: false).signOut();
                 },
               )
             ],

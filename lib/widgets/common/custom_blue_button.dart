@@ -6,11 +6,13 @@ class CustomBlueButton extends StatelessWidget {
   const CustomBlueButton({
     Key? key,
     required this.value,
-    this.formKey,
+    required this.formKey,
+    required this.authProgress,
   }) : super(key: key);
 
   final String value;
   final GlobalKey<FormState>? formKey;
+  final authProgress;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class CustomBlueButton extends StatelessWidget {
           onPressed: () {
             if (formKey != null) {
               if (formKey!.currentState!.validate()) {
-                Navigator.pushReplacementNamed(context, "/home");
+                authProgress();
               }
             }
           },

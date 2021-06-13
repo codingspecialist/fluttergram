@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_instagram/models/user_repository.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants/common_size.dart';
 
